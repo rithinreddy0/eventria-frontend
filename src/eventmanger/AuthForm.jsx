@@ -58,7 +58,9 @@ const AuthForm = () => {
           Cookies.set('organizerAuthToken', data.token, {
               expires: 7,
             secure: true, // Required for HTTPS
-            sameSite: 'None', // Allows cross-origin cookie usage
+            sameSite: 'None',// Allows cross-origin cookie usage
+            domain: 'eventria-frontend.vercel.app', // Ensure this matches your frontend domain
+            path: '/'
           });
           navigate('/dashboard')
           navigate('/organizer/dashboard')
