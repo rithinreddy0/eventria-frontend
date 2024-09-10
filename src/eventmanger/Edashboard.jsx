@@ -9,7 +9,7 @@ export default function Edashboard() {
   const navigate = useNavigate();
   // const navigate = useNavigate();
   // const {login1,logout1,isAuthenticated1,setIsAuthenticated1} = useContext(AuthContext)
-  useEffect(()=>{
+ /* useEffect(()=>{
     const verify = async()=>{
         const response = await fetch("https://backend-eventria-10.onrender.com/organizer/verify",{
             method:"POST",
@@ -22,7 +22,7 @@ export default function Edashboard() {
     }
     verify();
 
-},[])
+},[])*/
   return (
     <div>
       <Navbar/>
