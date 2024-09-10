@@ -55,7 +55,11 @@ const AuthForm = () => {
 
       // Handle success response
       if(!isSignup){
-          Cookies.set('organizerAuthToken', data.token, { expires: 7 });
+          Cookies.set('organizerAuthToken', data.token, {
+              expires: 7,
+            secure: true, // Required for HTTPS
+            sameSite: 'None', // Allows cross-origin cookie usage
+          });
           navigate('/dashboard')
           navigate('/organizer/dashboard')
       }
