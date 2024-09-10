@@ -36,7 +36,7 @@ const StudentDashboard = () => {
       const dateTimeStr = '2024-09-10T14:30:00';
       console.log(convertTo12HourFormat(dateTimeStr)); // Output: "9/10/2024 2:30 PM"
       
-    useEffect(()=>{
+/*    useEffect(()=>{
         const verify = async()=>{
             const response = await fetch("https://backend-eventria-10.onrender.com/student/verify",{
                 method:"POST",
@@ -50,7 +50,7 @@ const StudentDashboard = () => {
         }
         verify();
 
-    },[])
+    },[])*/
     useEffect(() => {
         // Fetch registered events
             const fetchRegisteredEvents = async () => {
