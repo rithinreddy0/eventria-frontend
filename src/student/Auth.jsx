@@ -91,7 +91,7 @@ const Auth = () => {
             if (data.success) {
                 toast.dismiss();
                 toast.success("Login Successful");
-                Cookies.set('studentAuthToken', data.token, { expires: 7 });
+                Cookies.set('studentAuthToken', data.token, { expires: 7 , secure:true });
                 resetForm();
                 navigate("/student/dashboard");
             }
