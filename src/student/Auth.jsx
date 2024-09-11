@@ -93,7 +93,7 @@ const Auth = () => {
                 toast.success("Login Successful");
                 Cookies.set('studentAuthToken', data.token, {
         expires: 7,
-        secure: true, // Ensures the cookie is sent only over HTTPS
+        secure: false, // Ensures the cookie is sent only over HTTPS
         sameSite: 'None', // Allows the cookie to be sent across different domains
     });
                 resetForm();
