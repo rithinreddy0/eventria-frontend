@@ -57,7 +57,7 @@ const AuthForm = () => {
       if(!isSignup){
           Cookies.set('organizerAuthToken', data.token, {
               expires: 7,
-            secure: true, // Required for HTTPS
+            secure: false, // Required for HTTPS
             sameSite: 'None',// Allows cross-origin cookie usage
             domain: 'eventria-frontend.vercel.app', // Ensure this matches your frontend domain
             path: '/'
