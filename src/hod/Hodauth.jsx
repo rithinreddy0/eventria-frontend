@@ -15,7 +15,7 @@ const Hodauth = () => {
     setLoading(true);
     setErrorMessage('');
     
-    const apiUrl='https://backend-eventria-10.onrender.com/hod/login';
+    const apiUrl='https://backend-eventria-10.onrender.comhod/login';
 
     const payload = {
       email,
@@ -29,6 +29,7 @@ const Hodauth = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
+        credentials:'include'
       });
 
       const data = await response.json();
@@ -39,7 +40,7 @@ const Hodauth = () => {
 
       
       
-          Cookies.set('hodAuthToken', data.token, { expires: 2 });
+          
         
           navigate('/hod/dashboard')
     

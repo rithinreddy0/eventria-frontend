@@ -11,7 +11,7 @@ const CreatePermissionLetter = () => {
   const [rollNumbers, setRollNumbers] = useState([]);
   useEffect(()=>{
     const verify = async()=>{
-        const response = await fetch("https://backend-eventria-10.onrender.com/student/verify",{
+        const response = await fetch("https://backend-eventria-10.onrender.comstudent/verify",{
             method:"POST",
             credentials:"include"
         })
@@ -37,7 +37,7 @@ const CreatePermissionLetter = () => {
   };
   const create_api = async()=>{
     toast.loading("Submitting Request Letter");
-    const reponse = await fetch("https://backend-eventria-10.onrender.com/student/newletter",{
+    const reponse = await fetch("https://backend-eventria-10.onrender.comstudent/newletter",{
         method:"POST",
         headers:{
             "Content-Type":"application/json",

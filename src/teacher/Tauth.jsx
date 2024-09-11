@@ -11,7 +11,7 @@ const Tauth = () => {
     const [email, setEmail] = useState('');
     // useEffect(()=>{
     //     const verify = async()=>{
-    //         const response = await fetch("https://backend-eventria-10.onrender.com/teacher/verify",{
+    //         const response = await fetch("https://backend-eventria-10.onrender.comteacher/verify",{
     //             method:"POST",
     //             credentials:"include"
     //         })
@@ -27,18 +27,19 @@ const Tauth = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('https://backend-eventria-10.onrender.com/teacher/login', {
+            const response = await fetch('https://backend-eventria-10.onrender.comteacher/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:"include",
                 body: JSON.stringify({ staffno, password }),
             });
             const data = await response.json();
             console.log(data);
             
             if(data.success==true){
-                Cookies.set('teacherAuthToken', data.token, { expires: 7 });
+
             
             setName("");;
             setStaffno("");
@@ -55,7 +56,7 @@ const Tauth = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('https://backend-eventria-10.onrender.com/teacher/signup', {
+            const response = await fetch('https://backend-eventria-10.onrender.comteacher/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -38,7 +38,7 @@ const StudentDashboard = () => {
       
     useEffect(()=>{
         const verify = async()=>{
-            const response = await fetch("https://backend-eventria-10.onrender.com/student/verify",{
+            const response = await fetch("https://backend-eventria-10.onrender.comstudent/verify",{
                 method:"POST",
                 credentials:"include"
             })
@@ -55,7 +55,7 @@ const StudentDashboard = () => {
         // Fetch registered events
             const fetchRegisteredEvents = async () => {
             try {
-                const response = await fetch('https://backend-eventria-10.onrender.com/student/regesterd', {
+                const response = await fetch('https://backend-eventria-10.onrender.comstudent/regesterd', {
                     method: 'POST',
                     credentials: 'include',
                 });
@@ -71,7 +71,7 @@ const StudentDashboard = () => {
         // Fetch all events
         const fetchAllEvents = async () => {
             try {
-                const response = await fetch('https://backend-eventria-10.onrender.com/student/events', {
+                const response = await fetch('https://backend-eventria-10.onrender.comstudent/events', {
                     method: 'POSt',
                     credentials: 'include',
                 });
@@ -89,7 +89,7 @@ const StudentDashboard = () => {
         // Fetch student details
         const fetchStudentDetails = async () => {
             try {
-                const response = await fetch('https://backend-eventria-10.onrender.com/student/info', {
+                const response = await fetch('https://backend-eventria-10.onrender.comstudent/info', {
                     method: 'POST',
                     credentials: 'include',
                 });

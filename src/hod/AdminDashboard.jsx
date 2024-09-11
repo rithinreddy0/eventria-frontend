@@ -7,7 +7,7 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
   const [v,setv] = useState("");
     const verify = async()=>{
-        const response = await fetch("https://backend-eventria-10.onrender.com/hod/getallletters",{
+        const response = await fetch("https://backend-eventria-10.onrender.comhod/getallletters",{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ const AdminDashboard = () => {
     }
     const onApprove = async(id)=>{
       
-      const response = await fetch("https://backend-eventria-10.onrender.com/hod/approve",{
+      const response = await fetch("https://backend-eventria-10.onrender.comhod/approve",{
           method: "POST",
           headers: {
               "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
       }
     }
     const onDisapprove = async(id)=>{
-      const response = await fetch("https://backend-eventria-10.onrender.com/hod/disapprove",{
+      const response = await fetch("https://backend-eventria-10.onrender.comhod/disapprove",{
           method: "POST",
           headers: {
               "Content-Type": "application/json",

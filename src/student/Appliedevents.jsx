@@ -8,7 +8,7 @@ const Appliedevents = () => {
   
     useEffect(()=>{
         const response = async()=>{
-            const response = await fetch('https://backend-eventria-10.onrender.com/student/appliedevents',{
+            const response = await fetch('https://backend-eventria-10.onrender.comstudent/appliedevents',{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',

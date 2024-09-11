@@ -1,41 +1,45 @@
-import React, { useState ,useEffect} from 'react';
-import { useNavigate, } from "react-router-dom"
-import { checkCookie } from '../utils/Checkcookie';
+import React, { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import toast from 'react-hot-toast';
+
 const AuthForm = () => {
-  const navigate = useNavigate()
-  
-  const [isSignup, setIsSignup] = useState(false); // toggle between login/signup
+  const navigate = useNavigate();
+  const [isSignup, setIsSignup] = useState(false); // Toggle between login/signup
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setUsername] = useState(''); // for signup only
+  const [name, setUsername] = useState(''); // For signup only
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  useEffect(()=>{
-    const verify = async()=>{
-        const response = await fetch("https://backend-eventria-10.onrender.com/organizer/verify",{
-            method:"POST",
-            credentials:"include"
-        })
-        
-        if(response.ok){
-            navigate("/organizer/dashboard");
-        }
-    }
-    verify();
+  const [redirect, setRedirect] = useState(false);
 
-},[])
+  useEffect(() => {
+    const verify = async()=>{
+      const response = await fetch("https://backend-eventria-10.onrender.comorganizer/verify",{
+          method:"POST",
+          credentials:"include"
+      })
+      
+      if(response.ok){
+          navigate("/organizer/dashboard");
+      }
+  }
+  verify();
+  }, [] );
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setErrorMessage('');
-    
-    const apiUrl = isSignup ? 'https://backend-eventria-10.onrender.com/organizer/signup' : 'https://backend-eventria-10.onrender.com/organizer/login';
+
+    const apiUrl = isSignup
+      ? 'https://backend-eventria-10.onrender.comorganizer/signup'
+      : 'https://backend-eventria-10.onrender.comorganizer/login';
 
     const payload = {
       email,
       password,
-      ...(isSignup && { name }) // include username if it's a signup
+      ...(isSignup && { name }) // Include name only in signup
     };
 
     try {
@@ -45,19 +49,13 @@ const AuthForm = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
+        credentials:'include'
       });
 
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.message || 'Something went wrong!');
-      }
-
-      // Handle success response
-      if(!isSignup){
-          Cookies.set('organizerAuthToken', data.token, { expires: 7 });
-          navigate('/dashboard')
-          navigate('/organizer/dashboard')
       }
     } catch (error) {
       setErrorMessage(error.message);
@@ -66,8 +64,12 @@ const AuthForm = () => {
     }
   };
 
+  if (redirect) {
+    return <Navigate to="/organizer/dashboard" />;
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-cover bg-center h-screen b12">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-cover bg-center h-screen">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
           {isSignup ? 'Sign Up' : 'Login'}

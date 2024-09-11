@@ -17,7 +17,7 @@ const Auth = () => {
     // Effect for verifying login status
     useEffect(() => {
         const verify = async () => {
-            const response = await fetch("https://backend-eventria-10.onrender.com/student/verify", {
+            const response = await fetch("https://backend-eventria-10.onrender.comstudent/verify", {
                 method: "POST",
                 credentials: "include"
             });
@@ -74,11 +74,12 @@ const Auth = () => {
 
         toast.loading("Logging In...");
         try {
-            const response = await fetch('https://backend-eventria-10.onrender.com/student/login', {
+            const response = await fetch('https://backend-eventria-10.onrender.comstudent/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:"include",
                 body: JSON.stringify({ rollno, password }),
             });
 
@@ -91,7 +92,7 @@ const Auth = () => {
             if (data.success) {
                 toast.dismiss();
                 toast.success("Login Successful");
-                Cookies.set('studentAuthToken', data.token, { expires: 7 });
+               
                 resetForm();
                 navigate("/student/dashboard");
             }
@@ -109,7 +110,7 @@ const Auth = () => {
 
         toast.loading("Creating Account...");
         try {
-            const response = await fetch('https://backend-eventria-10.onrender.com/student/signup', {
+            const response = await fetch('https://backend-eventria-10.onrender.comstudent/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

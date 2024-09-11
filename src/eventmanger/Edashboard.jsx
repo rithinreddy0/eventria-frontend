@@ -11,7 +11,7 @@ export default function Edashboard() {
   // const {login1,logout1,isAuthenticated1,setIsAuthenticated1} = useContext(AuthContext)
   useEffect(()=>{
     const verify = async()=>{
-        const response = await fetch("https://backend-eventria-10.onrender.com/organizer/verify",{
+        const response = await fetch("https://backend-eventria-10.onrender.comorganizer/verify",{
             method:"POST",
             credentials:"include"
         })

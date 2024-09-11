@@ -11,7 +11,7 @@ const Eventapply = () => {
   const handleUpdate = async () => {
     try {
       toast.loading("Updating Please wait ..")
-      const response = await fetch(`https://backend-eventria-10.onrender.com/student/update/${eventId}`, {
+      const response = await fetch(`https://backend-eventria-10.onrender.comstudent/update/${eventId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const Eventapply = () => {
 
   useEffect(() => {
     // Fetch event data from the backend
-    fetch(`https://backend-eventria-10.onrender.com/student/apply/${eventId}`, {
+    fetch(`https://backend-eventria-10.onrender.comstudent/apply/${eventId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -27,7 +27,7 @@ const EventManager = () => {
     }
     const all_events = async()=>{
        
-            const response = await fetch("https://backend-eventria-10.onrender.com/organizer/getallevents",{
+            const response = await fetch("https://backend-eventria-10.onrender.comorganizer/getallevents",{
                 method: "POST",
                 credentials:"include",
                 headers: {
@@ -65,7 +65,7 @@ const EventManager = () => {
   };
   const api_call = async(event)=>{
 
-        const response = await fetch("https://backend-eventria-10.onrender.com/organizer/createevent",{
+        const response = await fetch("https://backend-eventria-10.onrender.comorganizer/createevent",{
             method:"POST",
             credentials:"include",
             headers:{
