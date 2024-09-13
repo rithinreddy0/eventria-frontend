@@ -11,7 +11,7 @@ const Tauth = () => {
     const [email, setEmail] = useState('');
     // useEffect(()=>{
     //     const verify = async()=>{
-    //         const response = await fetch("https://backend-eventria-10.onrender.comteacher/verify",{
+    //         const response = await fetch("https://localhost:4000/teacher/verify",{
     //             method:"POST",
     //             credentials:"include"
     //         })
@@ -27,7 +27,7 @@ const Tauth = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('https://backend-eventria-10.onrender.comteacher/login', {
+            const response = await fetch('https://localhost:4000/teacher/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const Tauth = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('https://backend-eventria-10.onrender.comteacher/signup', {
+            const response = await fetch('https://localhost:4000/teacher/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

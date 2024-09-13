@@ -11,7 +11,10 @@ const Snavbar = () => {
   };
   const navigate = useNavigate();
   const logout_handle = ()=>{
-    Cookies.remove("studentAuthToken");
+    localStorage.removeItem('organizerAuthToken');
+    localStorage.removeItem('teacherAuthToken');
+    localStorage.removeItem('hodAuthToken');
+    localStorage.removeItem('studentAuthToken');
     navigate("/student/auth");
 
   }

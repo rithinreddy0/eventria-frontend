@@ -1,27 +1,43 @@
-import React from 'react'
-import { useState ,useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import Event from './Event';
-export default function Revents() {
+import Snavbar from './Snavabar';
+import axios from 'axios';
+
+const Appliedevents = () => {
     const [events,setevent] = useState([]);
   
     useEffect(()=>{
+      const token = localStorage.getItem('studentAuthToken')
         const response = async()=>{
-            const response = await fetch('https://backend-eventria-10.onrender.comstudent/appliedevents',{
-                method: 'POST',
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/appliedevents`,{
                 headers:{
-                    'Content-Type': 'application/json',
-                    },
-                    credentials:'include',
-            });
-            const data = await response.json();
-            setevent(data.data)
+                  Authorization:`Bearer ${token}`
+                }
+            })
+            .then((data)=>{
+              setevent(data.data.data)
+            })
+            
             // console.log(data.data)
         }
         response();
     },[])
+
+  // if(events.length>=0){
+  //   return(
+  //     <div>
+  //       <h2 className="text-2xl font-bold mb-4 text-center">Applied Events</h2>
+  //       <h4>No Applied Events</h4>
+
+  //     </div>
+  //   )
+  // }
+
   return (
-    <div className="container mx-auto p-4 ">
-      <h2 className="text-xl font-semibold mb-4 text-center">Regestered Events Events</h2>
+    <>
+        <div className="container mx-auto p-4 ">
+    
       <div className="flex flex-col">
         {events && (
           events.map((event,index)=>{
@@ -30,5 +46,8 @@ export default function Revents() {
         )}
       </div>
     </div>
-  )
-}
+      </>
+  );
+};
+
+export default Appliedevents;

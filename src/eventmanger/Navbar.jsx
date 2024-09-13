@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({logout}) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
+  const logout1 = ()=>{
+    localStorage.removeItem('organizerAuthToken');
+    logout(false)
+  }
   return (
     <nav className="bg-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,6 +34,9 @@ const Navbar = () => {
             </a>
             <a onClick={()=>{navigate('/organizer/validate-entry')}} className="text-gray-600 hover:text-indigo-600">
               Validate Entry
+            </a>
+            <a onClick={()=>logout1()} className="text-gray-600 hover:text-indigo-600">
+              Logout
             </a>
             
           </div>

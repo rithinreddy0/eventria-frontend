@@ -7,7 +7,7 @@ export default function Event() {
     useEffect(() => {
         const fetchEventDetails = async () => {
             try {
-                const response = await fetch(`https://backend-eventria-10.onrender.comorganizer/event/${eventId}`,{
+                const response = await fetch(`https://localhost:4000/organizer/event/${eventId}`,{
                     method:"POST",
                     headers:{
                         "Content-Type":"application/json",

@@ -15,7 +15,7 @@ const Hodauth = () => {
     setLoading(true);
     setErrorMessage('');
     
-    const apiUrl='https://backend-eventria-10.onrender.comhod/login';
+    const apiUrl='https://localhost:4000/hod/login';
 
     const payload = {
       email,

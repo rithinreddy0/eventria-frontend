@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { async } from '@babel/runtime/regenerator';
+import axios from 'axios';
 
 const Auth = () => {
     const navigate = useNavigate();
@@ -13,20 +15,21 @@ const Auth = () => {
     const [year, setYear] = useState('');
     const [className, setClassName] = useState('');
     const [section, setSection] = useState('');
-
-    // Effect for verifying login status
-    useEffect(() => {
-        const verify = async () => {
-            const response = await fetch("https://backend-eventria-10.onrender.comstudent/verify", {
-                method: "POST",
-                credentials: "include"
-            });
-            if (response.ok) {
+    
+    useEffect(()=>{
+        const verify = async ()=>{
+            const token = localStorage.getItem("studentAuthToken");
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/verify`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(()=>{
                 navigate("/student/dashboard");
-            }
-        };
+            })
+           
+        }
         verify();
-    }, [isLogin, navigate]);
+    })
 
     // Helper function to validate input fields
     const validate = () => {
@@ -62,7 +65,6 @@ const Auth = () => {
             setRollno(rollno.trim());
             setName(name.trim());
             setEmail(email.trim());
-            
         }
         return true;
     };
@@ -70,32 +72,29 @@ const Auth = () => {
     // Handle login submission
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!validate()) return; // Run validation
-
+        if (!validate()) return; 
         toast.loading("Logging In...");
         try {
-            const response = await fetch('https://backend-eventria-10.onrender.comstudent/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials:"include",
-                body: JSON.stringify({ rollno, password }),
-            });
-
-            if (!response.ok) {
-                toast.dismiss();
-                return toast.error("Invalid Login Details");
-            }
-
-            const data = await response.json();
-            if (data.success) {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/login`,{rollno,password})
+            .then((res)=>{
                 toast.dismiss();
                 toast.success("Login Successful");
-               
-                resetForm();
-                navigate("/student/dashboard");
-            }
+                console.log(res.data);
+                localStorage.removeItem('organizerAuthToken');
+                localStorage.removeItem('teacherAuthToken');
+                localStorage.removeItem('hodAuthToken');
+                localStorage.removeItem('studentAuthToken');
+                localStorage.setItem('studentAuthToken', res.data.token);
+                navigate('/student/dashboard')
+
+            })
+            // .catch((error)=>{
+            //     console.log(error)
+            //     toast.dismiss();
+            //     toast.error("Invalid Roll Number or Password");
+            // })
+            
+            
         } catch (error) {
             toast.dismiss();
             toast.error('Error logging in.');
@@ -110,22 +109,21 @@ const Auth = () => {
 
         toast.loading("Creating Account...");
         try {
-            const response = await fetch('https://backend-eventria-10.onrender.comstudent/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, email, password, rollno, className, section, year }),
-            });
-
-            if (!response.ok) {
+            const token = localStorage.getItem("studentAuthToken")
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/signup`,{ name, email, password, rollno, className, section, year } ,{
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(()=>{
+                toast.dismiss();
+                toast.success("Account Created Successfully");
+                resetForm();
+            })
+            .catch( ()=> {
                 toast.dismiss();
                 return toast.error("Error creating account");
-            }
-
-            toast.dismiss();
-            toast.success("Account Created Successfully");
-            resetForm();
+            })
             setIsLogin(true); // Switch to login mode
         } catch (error) {
             toast.dismiss();

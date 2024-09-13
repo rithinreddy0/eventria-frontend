@@ -2,14 +2,14 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
-
+import { useEffect } from 'react';
 import AuthForm from './eventmanger/AuthForm.jsx';
 import Edashboard from './eventmanger/Edashboard.jsx';
 import Event from './eventmanger/Event.jsx';
 import Auth from './student/Auth.jsx';
 import StudentDashboard from './student/StudentDashboard.jsx';
 import EventApply from './student/Eventapply.jsx';
-import { AuthProvider } from './context/AuthContext.jsx';
+
 import EventDetails from './eventmanger/EventDetails.jsx';
 import Hodauth from './hod/Hodauth.jsx';
 import AdminDashboard from './hod/AdminDashboard.jsx';
@@ -23,7 +23,7 @@ import Qrgenerate from './student/Qrgenerate.jsx';
 import Appliedevents from './student/Appliedevents.jsx';
 import Validdate from './eventmanger/Validdate.jsx';
 import HomePage from './home/HomePage.jsx';
-
+import axios from 'axios';
 const router = createBrowserRouter([
   { path: "/organizer/login", element: <AuthForm /> },
   { path: "/organizer/dashboard", element: <Edashboard /> },
@@ -48,8 +48,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider>
+   
       <RouterProvider router={router} />
-    </AuthProvider>
+    
   </StrictMode>
 );

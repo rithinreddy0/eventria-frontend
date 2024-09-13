@@ -10,7 +10,7 @@ export default function Fullevent() {
         getandverify();
     },[])
     const getandverify = async ()=>{
-        const response = await fetch(`https://backend-eventria-10.onrender.comorganizer/event/${eventId}`,{
+        const response = await fetch(`https://localhost:4000/organizer/event/${eventId}`,{
             method:"POST",
             credentials:"include",
             headers:{

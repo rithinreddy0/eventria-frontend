@@ -6,7 +6,7 @@ const QRScanner = ({after_scan}) => {
   const [error, setError] = useState(null);
   const update = async (qrData)=>{
     toast.loading("Scanned .please wait...")
-    const response = await fetch('https://backend-eventria-10.onrender.comorganizer/validate',{
+    const response = await fetch('https://localhost:4000/organizer/validate',{
       method: 'POST',
       credentials:'include',
       headers:{

@@ -1,8 +1,7 @@
 // src/EventManager.js
 import React, { useEffect, useState } from "react";
 import { Await, useNavigate } from "react-router-dom";
-
-
+import axios from "axios";
 const EventManager = () => {
   const navigate = useNavigate();
     const [name,setname] = useState("");
@@ -13,6 +12,7 @@ const EventManager = () => {
     const [endTime, setEndTime] = useState("");
     const [formcode,setFormcode] = useState("");
     const [showForm, setShowForm] = useState(false);
+    const token = localStorage.getItem('organizerAuthToken');
     const [events,setEvents] = useState([]);
     const currentDate = new Date();
       const upcomingEvents = events.filter(event => new Date(event.stime) > currentDate  && new Date(event.etime)>currentDate);
@@ -20,27 +20,23 @@ const EventManager = () => {
       const completedEvents = events.filter(event => new Date(event.etime) < currentDate);
     useEffect(()=>{
         all_events();
-        
+        console.log(token)
     },[showForm]);
     const onclick_handle = (id)=>{
       navigate(`/organizer/event/${id}`)
     }
     const all_events = async()=>{
-       
-            const response = await fetch("https://backend-eventria-10.onrender.comorganizer/getallevents",{
-                method: "POST",
-                credentials:"include",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            const data = await response.json();
-            setname(data.name);
-            if(data.data){
-              setEvents(data.data);
-            }
-            
-             
+      console.log(`${import.meta.env.VITE_URL}/organizer/getallevents`)
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/organizer/getallevents`,{
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem('organizerAuthToken')}`
+        }
+      })
+      const data = response.data
+      setname(data.name);
+      if(data.data){
+        setEvents(data.data);
+      }   
     }
 //   const [events, setEvents] = useState([]);
 
@@ -64,22 +60,13 @@ const EventManager = () => {
     }
   };
   const api_call = async(event)=>{
-
-        const response = await fetch("https://backend-eventria-10.onrender.comorganizer/createevent",{
-            method:"POST",
-            credentials:"include",
-            headers:{
-                "Content-Type":"application/json",
-            },
-            body:JSON.stringify(event)
-        });
-        if(!response.ok){
-            throw new Error(data.message || 'Something went wrong!');
-        }
-        else{
-            const data = await response.json();
-            
-        }
+        // const token = localStorage.getItem('organizerAuthToken');
+        console.log(token)
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/organizer/createevent`,{event},{
+          headers:{
+            Authorization: `Bearer ${token}`
+          }})
+        console.log(response)
   }
 
   

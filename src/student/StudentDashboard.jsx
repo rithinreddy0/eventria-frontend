@@ -4,6 +4,7 @@ import { checkCookie } from '../utils/Checkcookie';
 
 import Snavbar from './Snavabar';
 import Revents from './Revents';
+import axios from 'axios';
 const StudentDashboard = () => {
     const [showRegisteredEvents, setShowRegisteredEvents] = useState(false);
     const [registeredEvents, setRegisteredEvents] = useState([]);
@@ -34,53 +35,40 @@ const StudentDashboard = () => {
       
       // Example usage:
       const dateTimeStr = '2024-09-10T14:30:00';
-      console.log(convertTo12HourFormat(dateTimeStr)); // Output: "9/10/2024 2:30 PM"
+    //   console.log(convertTo12HourFormat(dateTimeStr)); // Output: "9/10/2024 2:30 PM"
       
     useEffect(()=>{
         const verify = async()=>{
-            const response = await fetch("https://backend-eventria-10.onrender.comstudent/verify",{
-                method:"POST",
-                credentials:"include"
+            const token = localStorage.getItem('studentAuthToken');
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/verify`,{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
             })
-            // console.log(response)
-            if(!response.ok){
-
-                navigate("/student/auth");
-            }
+            .catch(()=>{
+                navigate('/student/auth')
+            })
         }
         verify();
 
     },[])
     useEffect(() => {
-        // Fetch registered events
-            const fetchRegisteredEvents = async () => {
-            try {
-                const response = await fetch('https://backend-eventria-10.onrender.comstudent/regesterd', {
-                    method: 'POST',
-                    credentials: 'include',
-                });
-                const data = await response.json();
-                // console.log("hello")
-                // console.log(data)
-                if(data.data){setRegisteredEvents(data.data);}
-            } catch (error) {
-                console.error('Error fetching registered events:', error);
-            }
-        };
+    
 
         // Fetch all events
         const fetchAllEvents = async () => {
             try {
-                const response = await fetch('https://backend-eventria-10.onrender.comstudent/events', {
-                    method: 'POSt',
-                    credentials: 'include',
+                const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/events`, {
+                    headers:{
+                        Authorization:`Bearer ${localStorage.getItem('studentAuthToken')}`
+                    }
                 });
-                const data = await response.json();
+                const data = response.data
                 // console.log(data);
                 if(data){
                     setAllEvents(data.data);
                 }
-                  console.log(data.data);
+                //   console.log(data.data);
             } catch (error) {
                 console.error('Error fetching all events:', error);
             }
@@ -89,22 +77,19 @@ const StudentDashboard = () => {
         // Fetch student details
         const fetchStudentDetails = async () => {
             try {
-                const response = await fetch('https://backend-eventria-10.onrender.comstudent/info', {
-                    method: 'POST',
-                    credentials: 'include',
-                });
-                // console.log(response)
-                const data = await response.json();
-                if(data.data){
-                    // console.log(data)
-                    setStudentDetails(data.data);
-                }
+                const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/info`, {
+                    headers:{
+                        Authorization:`Bearer ${localStorage.getItem('studentAuthToken')}`
+                    }
+                })
+                // console.log(response.data.data)
+                setStudentDetails(response.data.data)
             } catch (error) {
                 console.error('Error fetching student details:', error);
             }
         };
 
-        fetchRegisteredEvents();
+        // fetchRegisteredEvents();
         fetchAllEvents();
         fetchStudentDetails();
     }, []);

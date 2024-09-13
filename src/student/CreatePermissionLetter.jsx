@@ -3,6 +3,7 @@ import StudentRollNumbers from './StudentRollNumbers';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import Snavbar from './Snavabar';
+import axios from 'axios';
 const CreatePermissionLetter = () => {
     const navigate = useNavigate();
   const [subject, setSubject] = useState('');
@@ -10,20 +11,19 @@ const CreatePermissionLetter = () => {
   const [department, setDepartment] = useState('');
   const [rollNumbers, setRollNumbers] = useState([]);
   useEffect(()=>{
-    const verify = async()=>{
-        const response = await fetch("https://backend-eventria-10.onrender.comstudent/verify",{
-            method:"POST",
-            credentials:"include"
-        })
-        console.log(response)
-        if(!response.ok){
-
+    const verify = async ()=>{
+        const token = localStorage.getItem("studentAuthToken");
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/verify`,{
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        }).catch(()=>{
             navigate("/student/auth");
-        }
+        })
+       
     }
     verify();
-
-},[])
+})
   const handleSubmit = (event) => {
     event.preventDefault();
     // Process form data
@@ -37,28 +37,22 @@ const CreatePermissionLetter = () => {
   };
   const create_api = async()=>{
     toast.loading("Submitting Request Letter");
-    const reponse = await fetch("https://backend-eventria-10.onrender.comstudent/newletter",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json",
-        },
-        body:JSON.stringify({
-            subject,
-            body,
-            department,
-            members:rollNumbers
-        }),
-        credentials:"include"
+    const token = localStorage.getItem('studentAuthToken')
+    const reponse = await axios.post(`${import.meta.env.VITE_API_URL}/student/newletter`,{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    },{subject,body,department,members:rollNumbers}
+  )
+    .then(()=>{
+      toast.dismiss();
+    toast.success("Request Letter Submitted");
     })
-    if(!reponse.ok){
+    .catch(()=>{
       toast.dismiss();
         toast.error("Can not Submit letter please Try Again")
         return
-    }
-    const letter = await reponse.json();
-    toast.dismiss();
-    toast.success("Request Letter Submitted");
-    
+    })
   }
 
   return (

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 import toast from 'react-hot-toast';
-
+const api = import.meta.env.VITE_API_URL;
 const AuthForm = () => {
   const navigate = useNavigate();
   const [isSignup, setIsSignup] = useState(false); // Toggle between login/signup
@@ -12,17 +13,19 @@ const AuthForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
-
+  
   useEffect(() => {
+    
     const verify = async()=>{
-      const response = await fetch("https://backend-eventria-10.onrender.comorganizer/verify",{
-          method:"POST",
-          credentials:"include"
-      })
-      
-      if(response.ok){
-          navigate("/organizer/dashboard");
-      }
+      const token = localStorage.getItem('organizerAuthToken')
+      console.log(api);
+      const response = await axios.post(`${api}/organizer/verify`,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }).then(()=>{
+        setRedirect(true);
+      })   
   }
   verify();
   }, [] );
@@ -33,8 +36,8 @@ const AuthForm = () => {
     setErrorMessage('');
 
     const apiUrl = isSignup
-      ? 'https://backend-eventria-10.onrender.comorganizer/signup'
-      : 'https://backend-eventria-10.onrender.comorganizer/login';
+      ? 'http://localhost:4000/organizer/signup'
+      : 'http://localhost:4000/organizer/login';
 
     const payload = {
       email,
@@ -43,20 +46,13 @@ const AuthForm = () => {
     };
 
     try {
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-        credentials:'include'
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong!');
+      const response = await axios.post(apiUrl, payload);
+      // Handle success response
+      if(!isSignup){
+          localStorage.setItem('organizerAuthToken', response.data.token);
+          navigate('/organizer/dashboard')
       }
+
     } catch (error) {
       setErrorMessage(error.message);
     } finally {

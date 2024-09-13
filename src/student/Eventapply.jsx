@@ -2,61 +2,74 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast, Toaster } from 'react-hot-toast';
 import Snavbar from './Snavabar';
+import axios from 'axios';
 
 const Eventapply = () => {
   const [event, setEvent] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const { eventId } = useParams();
-
-  const handleUpdate = async () => {
-    try {
-      toast.loading("Updating Please wait ..")
-      const response = await fetch(`https://backend-eventria-10.onrender.comstudent/update/${eventId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-      if(response.status == 303){
-        toast.dismiss();
-        toast.error("Already Applied for the Event");
-        return
-      }
-      const data = await response.json();
-      toast.dismiss()
-      toast.success('Event updated successfully!');
-      
-    } catch (error) {
-      toast.error('Failed to update the event.');
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    // Fetch event data from the backend
-    fetch(`https://backend-eventria-10.onrender.comstudent/apply/${eventId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
+    const fetchEvent = async () => {
+      console.log("object")
+      const token = localStorage.getItem("studentAuthToken")
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/apply/${eventId}`,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
       .then((data) => {
-        setEvent(data.data);
-        setLoading(false);
+        console.log(data.data)
+        setEvent(data.data.data);
+        // setLoading(false);
         console.log(data.data)
       })
-
       .catch((error) => {
+        console.error(error);
         console.error('Error fetching event:', error);
-        setLoading(false);
-      });
-  }, [eventId]);
-
-  if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
+        // setLoading(false);
+      }).finally(()=>{
+        // setLoading(false)
+      })
+      
   }
+  fetchEvent();
+}, []);
+
+
+
+
+  const handleUpdate = async () => {
+
+      toast.loading("Updating Please wait ..")
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/update/${eventId}`, {
+       headers:{
+        Authorization: `Bearer ${localStorage.getItem("studentAuthToken")}`
+       }
+      })
+      .then(()=>{
+        toast.dismiss()
+      toast.success('Event updated successfully!');
+      })
+      .catch((error)=>{
+        if(error.status==303){
+          toast.dismiss();
+          toast.error("Already Applied for the event")
+        }
+        else{
+          toast.dismiss();
+          toast.error("please trry again")
+        }
+      })
+      
+      
+    
+  };
+
+
+
+  // if (loading) {
+  //   return <div className="text-center py-10">Loading...</div>;
+  // }
 
   if (!event) {
     return <div className="text-center py-10">No event found.</div>;

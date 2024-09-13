@@ -2,21 +2,23 @@ import React, { useEffect, useState } from 'react';
 
 import Event from './Event';
 import Snavbar from './Snavabar';
+import axios from 'axios';
 
 const Appliedevents = () => {
     const [events,setevent] = useState([]);
   
     useEffect(()=>{
+      const token = localStorage.getItem('studentAuthToken')
         const response = async()=>{
-            const response = await fetch('https://backend-eventria-10.onrender.comstudent/appliedevents',{
-                method: 'POST',
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/appliedevents`,{
                 headers:{
-                    'Content-Type': 'application/json',
-                    },
-                    credentials:'include',
-            });
-            const data = await response.json();
-            setevent(data.data)
+                  Authorization:`Bearer ${token}`
+                }
+            })
+            .then((data)=>{
+              setevent(data.data.data)
+            })
+            
             // console.log(data.data)
         }
         response();

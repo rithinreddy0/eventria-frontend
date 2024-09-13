@@ -8,7 +8,7 @@ const Studentp = ({className ,section,year}) => {
     // Fetch data from the backend
     const fetchEvents = async () => {
       try {
-        const response = await fetch('https://backend-eventria-10.onrender.comteacher/getstudents', {
+        const response = await fetch('https://localhost:4000/teacher/getstudents', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
