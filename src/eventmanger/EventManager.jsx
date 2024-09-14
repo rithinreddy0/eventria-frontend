@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Await, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 const   EventManager = () => {
   const navigate = useNavigate();
     const [id,setId] = useState();
@@ -12,6 +13,7 @@ const   EventManager = () => {
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [formcode,setFormcode] = useState("");
+    const [image,setImage] = useState(null);
     const [showForm, setShowForm] = useState(false);
     const token = localStorage.getItem('organizerAuthToken');
     const [events,setEvents] = useState([]);
@@ -50,7 +52,7 @@ const   EventManager = () => {
     if (eventName && eventDate && startTime && endTime) {
       const startDateTime = new Date(`${eventDate}T${startTime}`);
       const endDateTime = new Date(`${eventDate}T${endTime}`);
-      const newEvent = { name: eventName,description:eventDescription,date:eventDate, stime: startDateTime, etime: endDateTime,formcode,id:id };
+      const newEvent = { name: eventName,description:eventDescription,date:eventDate, stime: startDateTime, etime: endDateTime,formcode,id:id,image };
       console.log(newEvent)
       api_call(newEvent);
       // setEventName("");
@@ -65,16 +67,20 @@ const   EventManager = () => {
     }
   };
   const api_call = async(event)=>{
+        
         const token = localStorage.getItem('organizerAuthToken');
         // console.log(token)
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/organizer/createevent`,event,)
-        console.log(response)
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/organizer/createevent`,event)
+        .then(()=>{
+          toast.success("New event Created");
+        })
   }
 
   
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
+      <Toaster/>
       <h2 className="text-3xl font-bold text-center mb-6 text-indigo-700">{name}</h2>
 
       <div className="flex justify-center mb-6">
@@ -130,6 +136,11 @@ const   EventManager = () => {
               className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
+          <div className="px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <label htmlFor="file" onChange={(e)=>{setImage(e.target.files[0]);console.log(image)}}>Upload Image of Event</label>
+          <input name="file" type="file" className="px-4 py-2  focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+          </div>
+
           <div className="flex justify-end mt-4">
             <button
               onClick={handleAddEvent}
