@@ -159,7 +159,7 @@ const Auth = () => {
                                 <input
                                     type="text"
                                     value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={(e) => setName(e.target.value.toLowerCase())}
                                     className="w-full p-2 border border-gray-300 rounded mt-2"
                                     required
                                 />
@@ -169,7 +169,7 @@ const Auth = () => {
                                 <input
                                     type="email"
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value.toLowerCase())}
                                     className="w-full p-2 border border-gray-300 rounded mt-2"
                                     required
                                 />
@@ -181,7 +181,7 @@ const Auth = () => {
                         <input
                             type="text"
                             value={rollno}
-                            onChange={(e) => setRollno(e.target.value)}
+                            onChange={(e) => setRollno(e.target.value.toLowerCase())}
                             className="w-full p-2 border border-gray-300 rounded mt-2"
                             required
                         />

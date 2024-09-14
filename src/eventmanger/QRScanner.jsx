@@ -1,31 +1,37 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import QrScanner from 'react-qr-scanner';
 const QRScanner = ({after_scan}) => {
+  
   const [qrData, setQrData] = useState(null);
   const [error, setError] = useState(null);
   const update = async (qrData)=>{
     toast.loading("Scanned .please wait...")
-    const response = await fetch('https://localhost:4000/organizer/validate',{
-      method: 'POST',
-      credentials:'include',
+    const token = localStorage.getItem('organizerAuthToken');
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/organizer/validate`,{qrData},{
       headers:{
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({qrData})
+        Authorization : `Bearer ${token}`
+      }
     })
-    if(!response.ok){
+    .then((res)=>{
+      const data = res.data
+      toast.dismiss();
+      toast.success('Updated in data base');
+      setQrData(null)
+    after_scan(data.student);
+      
+    }).catch(()=>{
       toast.dismiss();
       toast.error("Try Again")
       return
-    }
-    const data = await response.json();
-    toast.dismiss();
-    toast.success('Updated in data base');
+    })
+    console.log(response)
+    
+  
     
 
-    setQrData(null)
-    after_scan(data.student);
+    
   }
   const handleScan = (data) => {
     if (data) {
@@ -54,8 +60,9 @@ const QRScanner = ({after_scan}) => {
 
       <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-lg">
         <QrScanner
-          delay={300}
-          facingMode = "environment"
+          delay={600}
+          facingMode="rear" 
+
           style={previewStyle}
           onError={handleError}
           onScan={handleScan}

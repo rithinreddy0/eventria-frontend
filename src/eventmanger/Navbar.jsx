@@ -6,10 +6,24 @@ const Navbar = ({logout}) => {
   const navigate = useNavigate();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+    useEffect(()=>{
+      const token = localStorage.getItem('organizerAuthToken');   
+        const verify = async()=>{
+          const response = await axios.post(`${import.meta.env.VITE_API_URL}/organizer/verify`,{
+            headers:{
+              Authorization: `Bearer ${token}`
+            }
+          }).catch(()=>{
+            navigate('/organizer/login')
+          })
+      }
+      verify();
+  
+  },[x])
   };
   const logout1 = ()=>{
     localStorage.removeItem('organizerAuthToken');
-    logout(false)
+    navigate('/organizer/login')
   }
   return (
     <nav className="bg-white shadow-lg">
@@ -87,6 +101,9 @@ const Navbar = ({logout}) => {
             </a>
             <a onClick={()=>{navigate('/organizer/validate-entry')}} className="text-gray-600 hover:text-indigo-600">
               Validate Entry
+            </a>
+            <a onClick={()=>{logout1()}} className="text-gray-600 hover:text-indigo-600">
+              logout
             </a>
           </div>
         </div>
