@@ -1,31 +1,30 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import Tnavbar from './Tnavbar';
 
-const Studentp = ({className ,section,year}) => {
+const Studentp = ({className ,section,year,handle}) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch data from the backend
-    const fetchEvents = async () => {
-      try {
-        const response = await fetch('https://localhost:4000/teacher/getstudents', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body:JSON.stringify({className,section,year}),
-          credentials:'include'
-        });
-        const data = await response.json();
-        console.log(data)
-        setEvents(data); // Assuming the backend response is an array of events
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-        setLoading(false);
-      }
-    };
 
+    const fetchEvents = async () => {
+        const token= localStorage.getItem('teacherAuthToken')
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/teacher/getstudents`, {className,section,year},{
+           headers:{
+                Authorization: `Bearer ${token}`
+           }
+        })
+      .then((res)=>{
+        setEvents(res.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+          setLoading(false)
+          console.error(error);
+        }); 
+        console.log(events)
+      }
     fetchEvents();
   }, []);
 
@@ -38,7 +37,9 @@ const Studentp = ({className ,section,year}) => {
 //   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <><Tnavbar/>
+    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-3">
+      <button onClick={handle}  className="w-[15vw] mx-auto bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300">Check Another class</button>
       <h1 className="text-2xl font-bold mb-6 text-center">Students Participating in Events</h1>
       {events.map((event) => (
         <div key={event._id} className="mb-6 p-4 bg-gray-100 rounded-lg shadow-sm">
@@ -68,6 +69,7 @@ const Studentp = ({className ,section,year}) => {
         </div>
       ))}
     </div>
+    </>
 
 
   );

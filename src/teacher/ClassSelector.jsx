@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Studentp from './Studentsp';
+import Tnavbar from './Tnavbar';
 
 const classOptions = {
   '1st Year': ["IOT",'AIML','AIDS','DS','CYS','ECE','CSE','EEE','AUT','MECH','CIVIL'],
@@ -11,10 +12,18 @@ const classOptions = {
 const sectionOptions = ['A', 'B', 'C' ,'D'];
 
 const ClassSelector = () => {
+  const [show,setshow] = useState(false)
   const [selectedYear, setSelectedYear] = useState(0);
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
-
+  const handle = ()=>{
+    if(show){
+      setshow(false)
+      // selectedYear(null);
+      // selectedSection(null);
+      // selectedClass(null);
+    }
+  }
   const yearOptions = Object.keys(classOptions);
 
   const handleYearSelect = (year) => {
@@ -34,13 +43,15 @@ const ClassSelector = () => {
     
     console.log(selectedClass,selectedSection,selectedYear)
   };
-  if(selectedYear && selectedClass && selectedSection ){
+  if(selectedYear && selectedClass && selectedSection && show ){
      return <div>
-      <Studentp className={selectedClass.toLowerCase()} section={selectedSection} year={selectedYear.charAt(0)}/>
+      <Studentp handle={handle} className={selectedClass.toLowerCase()} section={selectedSection} year={selectedYear.charAt(0)}/>
      </div>
   }
   return (
+    <> <Tnavbar/>
     <div className="p-6 max-w-4xl mx-auto">
+     
       <h1 className='text-3xl font-bold mb-5'>Get all the Deatils of Permmison and Event Participation </h1>
       <h1 className="text-xl font-bold mb-6">Select Year</h1>
 
@@ -68,7 +79,7 @@ const ClassSelector = () => {
             {classOptions[selectedYear].map((className, index) => (
               <button
                 key={index}
-                onClick={() => handleClassSelect(className)}
+                onClick={() => {handleClassSelect(className); setshow(true)}}
                 className={`p-4 border rounded-lg 
                   ${selectedClass === className ? 'bg-green-500 text-white' : 'bg-gray-200'}
                   hover:bg-green-300 transition`}
@@ -103,6 +114,7 @@ const ClassSelector = () => {
 
       
     </div>
+    </>
   );
 };
 

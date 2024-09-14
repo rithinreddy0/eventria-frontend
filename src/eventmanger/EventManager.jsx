@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { Await, useNavigate } from "react-router-dom";
 import axios from "axios";
-const EventManager = () => {
+const   EventManager = () => {
   const navigate = useNavigate();
+    const [id,setId] = useState();
     const [name,setname] = useState("");
     const [eventName, setEventName] = useState("");
     const [eventDescription, setEventDescription] = useState("");
@@ -19,9 +20,10 @@ const EventManager = () => {
       const ongoingEvents = events.filter(event => new Date(event.stime) <= currentDate && new Date(event.etime) >= currentDate);
       const completedEvents = events.filter(event => new Date(event.etime) < currentDate);
     useEffect(()=>{
-        all_events();
+        all_events(); 
         console.log(token)
     },[showForm]);
+
     const onclick_handle = (id)=>{
       navigate(`/organizer/event/${id}`)
     }
@@ -32,8 +34,11 @@ const EventManager = () => {
           Authorization: `Bearer ${localStorage.getItem('organizerAuthToken')}`
         }
       })
+      
       const data = response.data
+      console.log(data)
       setname(data.name);
+      setId(data.id)
       if(data.data){
         setEvents(data.data);
       }   
@@ -45,13 +50,13 @@ const EventManager = () => {
     if (eventName && eventDate && startTime && endTime) {
       const startDateTime = new Date(`${eventDate}T${startTime}`);
       const endDateTime = new Date(`${eventDate}T${endTime}`);
-      const newEvent = { name: eventName,description:eventDescription,date:eventDate, stime: startDateTime, etime: endDateTime,formcode };
-      (newEvent)
+      const newEvent = { name: eventName,description:eventDescription,date:eventDate, stime: startDateTime, etime: endDateTime,formcode,id:id };
+      console.log(newEvent)
       api_call(newEvent);
-      setEventName("");
-      setEventDate("");
-      setStartTime("");
-      setEndTime("");
+      // setEventName("");
+      // setEventDate("");
+      // setStartTime("");
+      // setEndTime("");
       setShowForm(false);
       const currentDate = new Date();
       const upcomingEvents = events.filter(event => new Date(event.stime) > currentDate  && new Date(event.etime)>currentDate);
@@ -60,12 +65,9 @@ const EventManager = () => {
     }
   };
   const api_call = async(event)=>{
-        // const token = localStorage.getItem('organizerAuthToken');
-        console.log(token)
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/organizer/createevent`,{event},{
-          headers:{
-            Authorization: `Bearer ${token}`
-          }})
+        const token = localStorage.getItem('organizerAuthToken');
+        // console.log(token)
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/organizer/createevent`,event,)
         console.log(response)
   }
 

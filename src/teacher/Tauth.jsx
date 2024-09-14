@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { checkCookie } from '../utils/Checkcookie';
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
+const api = import.meta.env.VITE_API_URL;
+
 const Tauth = () => {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
@@ -9,77 +13,66 @@ const Tauth = () => {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    // useEffect(()=>{
-    //     const verify = async()=>{
-    //         const response = await fetch("https://localhost:4000/teacher/verify",{
-    //             method:"POST",
-    //             credentials:"include"
-    //         })
-    //         console.log(response)
-    //         if(response.ok){
-
-    //             navigate("/teacher/dashboard");
-    //         }
-    //     }
-    //     verify();
-
-    // },[name])
+    useEffect(()=>{
+        const verify = async()=>{
+            const token = localStorage.getItem('teacherAuthToken')
+            console.log(api);
+            const response = await axios.post(`${api}/teacher/verify`,{
+              headers:{
+                Authorization: `Bearer ${token}`
+              }
+            }).then(()=>{
+                navigate('/teacher/dashboard')
+            })   
+        }
+        verify();
+    },[])
+    
     const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch('https://localhost:4000/teacher/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials:"include",
-                body: JSON.stringify({ staffno, password }),
-            });
-            const data = await response.json();
-            console.log(data);
-            
-            if(data.success==true){
-
-            
-            setName("");;
-            setStaffno("");
-            setEmail("");
-            
-            navigate("/teacher/dashboard")
-            }
-
-        } catch (error) {
-            console.error('Error logging in:', error);
-        }
+        toast.loading('logging you please wait')
+        const token = localStorage.getItem("teacherAuthToken")
+        const response = await axios.post(`${api}/teacher/login`, {
+            staffno,password},{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }).then((res)=>{
+                console.log(res)
+                setName("");;
+                setStaffno("");
+                setEmail("");
+                toast.dismiss();
+                toast.success("Login Successfull")
+                localStorage.setItem('teacherAuthToken',res.data.token)
+                navigate("/teacher/dashboard")
+            }).catch((e)=>{
+                toast.dismiss();
+                toast.error("Please enter correct details")
+            })  
     };
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch('https://localhost:4000/teacher/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, email, password, staffno }),
-            });
-            const data = await response.json();
-            console.log(data);
-            // console.log(data);
+            toast.loading("creating new account")
+            const response = await axios.post(`${api}/teacher/signup`, { name, email, password, staffno })
+            .then(()=>{
+                toast.dismiss()
+                toast.success("Signup Successfull")
+            })
+            .catch((e)=>{
+                toast.dismiss()
+                toast.error("Please enter correct details")
+            })
             setName("");;
             setStaffno("");
             setEmail("");
             setPassword("");
-            
-            
-
-        } catch (error) {
-            console.error('Error signing up:', error);
-        }
     };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <Toaster/>
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold text-center mb-4">
                     {isLogin ? 'Login' : 'Sign Up'}
