@@ -36,8 +36,8 @@ const AuthForm = () => {
     setErrorMessage('');
 
     const apiUrl = isSignup
-      ? 'http://localhost:4000/organizer/signup'
-      : 'http://localhost:4000/organizer/login';
+      ? `${api}/organizer/signup`
+      : `${api}/organizer/login`;
 
     const payload = {
       email,
