@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Tnavbar from './Tnavbar';
+import Loading from '../Loading';
 
 const Studentp = ({className ,section,year,handle}) => {
   const [events, setEvents] = useState([]);
@@ -29,7 +30,7 @@ const Studentp = ({className ,section,year,handle}) => {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return <div className="text-center py-10"><Loading/></div>;
   }
 
 //   if (!events.length) {
@@ -39,7 +40,7 @@ const Studentp = ({className ,section,year,handle}) => {
   return (
     <><Tnavbar/>
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-3">
-      <button onClick={handle}  className="w-[15vw] mx-auto bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300">Check Another class</button>
+      <button onClick={handle}  className="w-[25vw] mx-auto bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300">Check Another class</button>
       <h1 className="text-2xl font-bold mb-6 text-center">Students Participating in Events</h1>
       {events.map((event) => (
         <div key={event._id} className="mb-6 p-4 bg-gray-100 rounded-lg shadow-sm">

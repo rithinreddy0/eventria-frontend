@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Await, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-const   EventManager = () => {
+import Loading from "../Loading";
+const   EventManager = ({}) => {
   const navigate = useNavigate();
     const [id,setId] = useState();
     const [name,setname] = useState("");
@@ -17,13 +18,19 @@ const   EventManager = () => {
     const [showForm, setShowForm] = useState(false);
     const token = localStorage.getItem('organizerAuthToken');
     const [events,setEvents] = useState([]);
+    const [loading,setLoading] = useState(true);
     const currentDate = new Date();
       const upcomingEvents = events.filter(event => new Date(event.stime) > currentDate  && new Date(event.etime)>currentDate);
       const ongoingEvents = events.filter(event => new Date(event.stime) <= currentDate && new Date(event.etime) >= currentDate);
       const completedEvents = events.filter(event => new Date(event.etime) < currentDate);
     useEffect(()=>{
+
         all_events(); 
-        console.log(token)
+        const timer = setTimeout(() => {
+          setLoading(false);  // Stop loading animation after 2 seconds
+        }, 2000);
+    
+        return () => clearTimeout(timer);
     },[showForm]);
 
     const onclick_handle = (id)=>{
@@ -35,6 +42,7 @@ const   EventManager = () => {
         headers:{
           Authorization: `Bearer ${localStorage.getItem('organizerAuthToken')}`
         }
+        
       })
       
       const data = response.data
@@ -43,12 +51,13 @@ const   EventManager = () => {
       setId(data.id)
       if(data.data){
         setEvents(data.data);
-      }   
+      }  
     }
 //   const [events, setEvents] = useState([]);
 
 
   const handleAddEvent = () => {
+
     if (eventName && eventDate && startTime && endTime) {
       const startDateTime = new Date(`${eventDate}T${startTime}`);
       const endDateTime = new Date(`${eventDate}T${endTime}`);
@@ -67,17 +76,19 @@ const   EventManager = () => {
     }
   };
   const api_call = async(event)=>{
-        
         const token = localStorage.getItem('organizerAuthToken');
         // console.log(token)
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/organizer/createevent`,event)
         .then(()=>{
           toast.success("New event Created");
         })
+
   }
 
   
-
+  if(loading){
+    return <Loading/>
+  }
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <Toaster/>

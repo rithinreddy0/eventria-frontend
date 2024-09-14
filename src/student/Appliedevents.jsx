@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import Event from './Event';
 import Snavbar from './Snavabar';
 import axios from 'axios';
+import Loading from '../Loading';
 
 const Appliedevents = () => {
     const [events,setevent] = useState([]);
-  
+    const [loading,setLoading] = useState(true);
     useEffect(()=>{
+
       const token = localStorage.getItem('studentAuthToken')
         const response = async()=>{
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/student/appliedevents`,{
@@ -22,6 +24,7 @@ const Appliedevents = () => {
             // console.log(data.data)
         }
         response();
+        setLoading(false)
     },[])
 
   // if(events.length>=0){
@@ -33,7 +36,13 @@ const Appliedevents = () => {
   //     </div>
   //   )
   // }
-
+if(loading){
+  return (
+    <div>
+      <Loading/>
+    </div>
+  )
+}
   return (
     <>
       <Snavbar/>

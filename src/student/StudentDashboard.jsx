@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkCookie } from '../utils/Checkcookie';
-
+import Loading from '../Loading'
 import Snavbar from './Snavabar';
 import Revents from './Revents';
 import axios from 'axios';
 const StudentDashboard = () => {
+    const [loading,setLoading] =useState(true);
     const [showRegisteredEvents, setShowRegisteredEvents] = useState(false);
     const [registeredEvents, setRegisteredEvents] = useState([]);
     const [allEvents, setAllEvents] = useState([]);
@@ -50,11 +51,6 @@ const StudentDashboard = () => {
             })
         }
         verify();
-
-    },[])
-    useEffect(() => {
-    
-
         // Fetch all events
         const fetchAllEvents = async () => {
             try {
@@ -92,8 +88,16 @@ const StudentDashboard = () => {
         // fetchRegisteredEvents();
         fetchAllEvents();
         fetchStudentDetails();
+            setLoading(false);  // Stop loading animation after 2 seconds
+          
     }, []);
-
+    if(loading){
+        return(
+            <div>
+                <Loading/>
+            </div>
+        )
+    }
     return (
         <>
         <Snavbar/>
