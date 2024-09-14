@@ -55,7 +55,7 @@ const QRScanner = ({after_scan}) => {
 
     <>
     <Toaster/>
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+    <div className="flex flex-col mt-0 items-center justify-center min-h-screen  bg-gray-100">
       <h1 className="text-2xl font-bold mb-4 text-center">Scan QR Code</h1>
 
       <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-lg">
