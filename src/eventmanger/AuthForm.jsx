@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import MNavbar from '../home/MNavbar';
 const api = import.meta.env.VITE_API_URL;
 const AuthForm = () => {
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ const AuthForm = () => {
   }
 
   return (
+    <><MNavbar/>
     <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-cover bg-center h-screen">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
@@ -140,6 +142,7 @@ const AuthForm = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -2,6 +2,9 @@ import React, { useState ,useEffect} from 'react';
 import { useNavigate, } from "react-router-dom"
 import { checkCookie } from '../utils/Checkcookie';
 import Cookies from 'js-cookie';
+import MNavbar from '../home/MNavbar';
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 const Hodauth = () => {
   const navigate = useNavigate()
   
@@ -12,46 +15,32 @@ const Hodauth = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    setErrorMessage('');
+    toast.loading("Logging in Please Wait")
     
-    const apiUrl='https://localhost:4000/hod/login';
+    const apiUrl=`${import.meta.env.VITE_API_URL}/hod/login`;
 
     const payload = {
       email,
       password
     };
+    const response = await axios.post(apiUrl,payload)
+    .then((res)=>{
+      // console.log(res.data.token)
+      localStorage.setItem("hodAuthToken",res.data.token)
+      toast.dismiss();
+      toast.success("Logged in");
+      navigate("/hod/dashboard")
+    })
+    .catch(()=>{
+      toast.dismiss();
+      toast.error("Invalid Email or Password");
 
-    try {
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-        credentials:'include'
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong!');
-      }
-
-      
-      
-          
-        
-          navigate('/hod/dashboard')
-    
-    } catch (error) {
-      setErrorMessage(error.message);
-    } finally {
-      setLoading(false);
-    }
+    })
   };
 
   return (
+    <><MNavbar/>
+    <Toaster/>
     <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-cover bg-center h-screen b12">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
@@ -103,6 +92,7 @@ const Hodauth = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

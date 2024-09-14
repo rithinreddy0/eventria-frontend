@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { async } from '@babel/runtime/regenerator';
 import axios from 'axios';
+import MNavbar from '../home/MNavbar';
 
 const Auth = () => {
     const navigate = useNavigate();
@@ -144,11 +145,13 @@ const Auth = () => {
     };
 
     return (
+        <>
+       <MNavbar className="" />
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <Toaster />
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold text-center mb-4">
-                    {isLogin ? 'Login' : 'Sign Up'}
+                    {isLogin ? 'Student Login' : 'Student Sign Up'}
                 </h2>
 
                 <form onSubmit={isLogin ? handleLogin : handleSignup}>
@@ -275,6 +278,7 @@ const Auth = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

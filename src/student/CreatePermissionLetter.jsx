@@ -38,11 +38,11 @@ const CreatePermissionLetter = () => {
   const create_api = async()=>{
     toast.loading("Submitting Request Letter");
     const token = localStorage.getItem('studentAuthToken')
-    const reponse = await axios.post(`${import.meta.env.VITE_API_URL}/student/newletter`,{
+    const reponse = await axios.post(`${import.meta.env.VITE_API_URL}/student/newletter`,{subject,body,department,members:rollNumbers},{
       headers:{
         Authorization:`Bearer ${token}`
       }
-    },{subject,body,department,members:rollNumbers}
+    }
   )
     .then(()=>{
       toast.dismiss();

@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { checkCookie } from '../utils/Checkcookie';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
+import MNavbar from '../home/MNavbar';
 const api = import.meta.env.VITE_API_URL;
 
 const Tauth = () => {
@@ -71,6 +72,7 @@ const Tauth = () => {
     };
 
     return (
+        <><MNavbar/>
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <Toaster/>
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -146,6 +148,7 @@ const Tauth = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

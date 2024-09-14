@@ -18,7 +18,7 @@ const PermissionLetter = (props) => {
             <h1>hello</h1>
           <h2 className="text-lg font-bold text-gray-800">{letter.subject}</h2>
           <p className="text-gray-600">
-            Created by: {letter.createdBy.name} ({letter.createdBy.department}, Year {letter.createdBy.year})
+            {/* Created by: {letter.createdBy.name} ({letter.createdBy.department}, Year {letter.createdBy.year}) */}
           </p>
         </div>
         <button
@@ -32,7 +32,7 @@ const PermissionLetter = (props) => {
       {showDetails && (
         <div className="mt-4">
           <p className="text-gray-600"><strong>Body:</strong> {letter.body}</p>
-          <p className="text-gray-600"><strong>Email:</strong> {letter.createdBy.email}</p>
+          {/* <p className="text-gray-600"><strong>Email:</strong> {letter.createdBy.email}</p> */}
           <p className="text-gray-600"><strong>Status:</strong> {letter.status ? 'Approved' : 'Pending'}</p>
 
           <div className="mt-4 flex space-x-4">
