@@ -13,6 +13,123 @@
   font-variation-settings:
   'FILL' 0,
   'wght' 400,
+  
   'GRAD' 0,
   'opsz' 24
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 1s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 1s ease-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+.mindmap-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.mindmap-node {
+  margin: 20px;
+  position: relative;
+}
+
+.node-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.node-description {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.mindmap-node:hover .node-description {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Arrows */
+.arrow {
+  width: 2px;
+  background-color: white;
+  position: absolute;
+}
+
+.arrow-to-student {
+  height: 150px;
+  top: -150px;
+  left: 50%;
+}
+
+.arrow-to-teacher {
+  height: 150px;
+  top: -150px;
+  right: 50%;
+}
+
+.arrow-to-hod {
+  height: 150px;
+  top: -150px;
+  right: 0;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.node-circle:hover {
+  animation: pulse 1.5s infinite;
 }
