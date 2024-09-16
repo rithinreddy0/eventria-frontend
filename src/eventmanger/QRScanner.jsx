@@ -61,8 +61,12 @@ const QRScanner = ({after_scan}) => {
       <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-lg">
         <QrScanner
           delay={600}
+<<<<<<< HEAD
          
 
+=======
+          facingMode={{ exact: 'environment' }} 
+>>>>>>> 79999e05ef233d14b7ac584c811dcfc374890bf2
           style={previewStyle}
           onError={handleError}
           onScan={handleScan}
