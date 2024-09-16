@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Tnavbar = () => {
+const Hnavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
   const logout1 = ()=>{
-    localStorage.removeItem('teacherAuthToken');
-    navigate('/teacher/auth');
+    localStorage.removeItem('hodAuthToken');
+    navigate('/hod/auth');
     
   }
   return (
@@ -17,7 +17,7 @@ const Tnavbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo and Brand Name */}
-          <div className="flex items-center" onClick={()=>{navigate('/teacher/dashboard')}}>
+          <div className="flex items-center" onClick={()=>{navigate('/hod/dashboard')}}>
             {/* <img
               className="h-8 w-8"
               src="https://via.placeholder.com/40x40.png?text=E"
@@ -30,7 +30,7 @@ const Tnavbar = () => {
 
           {/* Links for larger screens */}
           <div className="hidden md:flex items-center space-x-4">
-            <a onClick={()=>{navigate('/teacher/dashboard')}} href="#" className="text-gray-600 hover:text-indigo-600">
+            <a onClick={()=>{navigate('/hod/dashboard')}} href="#" className="text-gray-600 hover:text-indigo-600">
               Home
             </a>
             <a onClick={()=>logout1()} className="text-gray-600 hover:text-indigo-600">
@@ -78,12 +78,18 @@ const Tnavbar = () => {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <a
-              onClick={()=>{navigate('/organizer/dashboard')}}
+              onClick={()=>{navigate('/hod/dashboard')}}
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
             >
               Home
             </a>
-            <a onClick={()=>{logout1()}} className="text-gray-600 hover:text-indigo-600">
+            <a onClick={()=>{navigate('/hod/approved')}} className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600">
+              Approved Permissions
+            </a>
+            <a onClick={()=>{navigate('/hod/disapproved')}} className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600">
+              Disapproved Permissions
+            </a>
+            <a onClick={()=>{logout1()}}className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600">
               Logout
             </a>
           </div>
@@ -93,4 +99,4 @@ const Tnavbar = () => {
   );
 };
 
-export default Tnavbar;
+export default Hnavbar;

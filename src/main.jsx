@@ -24,6 +24,8 @@ import Appliedevents from './student/Appliedevents.jsx';
 import Validdate from './eventmanger/Validdate.jsx';
 import HomePage from './home/HomePage.jsx';
 import axios from 'axios';
+import Disapproved from './hod/Disapproved.jsx';
+import Approved from './hod/Approved.jsx'
 const router = createBrowserRouter([
   { path: "/organizer/login", element: <AuthForm /> },
   { path: "/organizer/dashboard", element: <Edashboard /> },
@@ -43,6 +45,8 @@ const router = createBrowserRouter([
   { path: "/student/qrgenerate", element: <Qrgenerate /> },
   { path: "/student/appliedevents", element: <Appliedevents /> },
   { path: "/organizer/validate-entry", element: <Validdate /> },
+  { path: "/hod/approved", element: <Approved/>},
+  { path: "/hod/disapproved", element: <Disapproved/>},
   { path: '/', element: <HomePage /> }
 ]);
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Hnavbar from './Hnavbar';
 
 const PermissionLetter = (props) => {
     const letter = props.letter;
@@ -12,6 +13,7 @@ const PermissionLetter = (props) => {
 
 
   return (
+   
     <div className="max-w-xl mx-auto bg-white shadow-md rounded-lg p-4 mb-4">
       <div className="flex justify-between items-center">
         <div>
@@ -33,7 +35,7 @@ const PermissionLetter = (props) => {
         <div className="mt-4">
           <p className="text-gray-600"><strong>Body:</strong> {letter.body}</p>
           {/* <p className="text-gray-600"><strong>Email:</strong> {letter.createdBy.email}</p> */}
-          <p className="text-gray-600"><strong>Status:</strong> {letter.status ? 'Approved' : 'Pending'}</p>
+          <p className="text-gray-600"><strong>Status:</strong> {letter.status}</p>
 
           <div className="mt-4 flex space-x-4">
             <button
@@ -52,6 +54,7 @@ const PermissionLetter = (props) => {
         </div>
       )}
     </div>
+
   );
 };
 

@@ -77,7 +77,7 @@ const Tauth = () => {
             <Toaster/>
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold text-center mb-4">
-                    {isLogin ? 'Login' : 'Sign Up'}
+                    {isLogin ? 'Teacher Login' : 'Teacher Sign Up'}
                 </h2>
 
                 <form onSubmit={isLogin ? handleLogin : handleSignup}>
@@ -88,7 +88,7 @@ const Tauth = () => {
                                 <input
                                     type="text"
                                     value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={(e) => setName(e.target.value.toLowerCase().trim())}
                                     className="w-full p-2 border border-gray-300 rounded mt-2"
                                     required
                                 />
@@ -98,7 +98,7 @@ const Tauth = () => {
                                 <input
                                     type="email"
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value.toLowerCase().trim())}
                                     className="w-full p-2 border border-gray-300 rounded mt-2"
                                     required
                                 />
@@ -110,7 +110,7 @@ const Tauth = () => {
                         <input
                             type="text"
                             value={staffno}
-                            onChange={(e) => setStaffno(e.target.value)}
+                            onChange={(e) => setStaffno(e.target.value.trim().toLowerCase())}
                             className="w-full p-2 border border-gray-300 rounded mt-2"
                             required
                         />

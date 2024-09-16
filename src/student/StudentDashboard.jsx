@@ -46,7 +46,8 @@ const StudentDashboard = () => {
                     Authorization:`Bearer ${token}`
                 }
             })
-            .catch(()=>{
+            .catch((error)=>{
+                console.log(error)
                 navigate('/student/auth')
             })
         }
