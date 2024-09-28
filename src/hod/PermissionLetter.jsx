@@ -4,6 +4,7 @@ import Hnavbar from './Hnavbar';
 const PermissionLetter = (props) => {
     const letter = props.letter;
     const id = props.letter._id;
+    
 
 
   const [showDetails, setShowDetails] = useState(false);
@@ -37,7 +38,8 @@ const PermissionLetter = (props) => {
           {/* <p className="text-gray-600"><strong>Email:</strong> {letter.createdBy.email}</p> */}
           <p className="text-gray-600"><strong>Status:</strong> {letter.status}</p>
 
-          <div className="mt-4 flex space-x-4">
+          {props.show&&(
+            <div className="mt-4 flex space-x-4">
             <button
               onClick={() => props.onApprove(letter._id)}
               className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
@@ -51,6 +53,7 @@ const PermissionLetter = (props) => {
               Disapprove
             </button>
           </div>
+          )}
         </div>
       )}
     </div>

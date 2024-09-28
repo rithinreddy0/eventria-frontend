@@ -5,6 +5,8 @@ import Cookies from 'js-cookie';
 import { async } from '@babel/runtime/regenerator';
 import axios from 'axios';
 import MNavbar from '../home/MNavbar';
+import showimage from '../assets/visibility1.png';
+import hideimage from '../assets/visibility2.png';
 
 const Auth = () => {
     const navigate = useNavigate();
@@ -16,6 +18,7 @@ const Auth = () => {
     const [year, setYear] = useState('');
     const [className, setClassName] = useState('');
     const [section, setSection] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     
     useEffect(()=>{
         const verify = async ()=>{
@@ -154,7 +157,7 @@ const Auth = () => {
                     {isLogin ? 'Student Login' : 'Student Sign Up'}
                 </h2>
 
-                <form onSubmit={isLogin ? handleLogin : handleSignup}>
+                <form className='mt-10' onSubmit={isLogin ? handleLogin : handleSignup}>
                     {!isLogin && (
                         <>
                             <div className="mb-4">
@@ -189,16 +192,34 @@ const Auth = () => {
                             required
                         />
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded mt-2"
-                            required
-                        />
-                    </div>
+                    <div className="relative mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-9 focus:outline-none"
+              >
+                <img
+                  src={showPassword ? hideimage : showimage}
+                  alt="Toggle Password Visibility"
+                  className="w-5 h-5"
+                />
+              </button>
+            </div>
                     {!isLogin && (
                         <>
                             <div className="mb-4">
@@ -265,7 +286,7 @@ const Auth = () => {
                     </button>
                 </form>
 
-                <div className="mt-4 text-center">
+                <div className="mt-4 text-center mt-10">
                     <p>
                         {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
                         <button
@@ -276,6 +297,15 @@ const Auth = () => {
                         </button>
                     </p>
                 </div>
+                <div className='flex justify-center items-center '>
+          {
+              <button
+              onClick={() => navigate('/forgetpassword/student')}
+              className="text-indigo-600 hover:underline focus:outline-none mt-3 text-center"
+            >Reset Password
+            </button>
+            }
+          </div>
             </div>
         </div>
         </>

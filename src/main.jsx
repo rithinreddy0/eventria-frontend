@@ -26,8 +26,10 @@ import HomePage from './home/HomePage.jsx';
 import axios from 'axios';
 import Disapproved from './hod/Disapproved.jsx';
 import Approved from './hod/Approved.jsx'
+import ForgotPassword from './utils/Forgetpassword.jsx';
+import ResetPassword from './utils/ResetPassword.jsx';
 const router = createBrowserRouter([
-  { path: "/organizer/login", element: <AuthForm /> },
+  { path: "/organizer/auth", element: <AuthForm /> },
   { path: "/organizer/dashboard", element: <Edashboard /> },
   { path: "/organizer/events/:eventId", element: <Event /> },
   { path: "/student/auth", element: <Auth /> },
@@ -47,8 +49,10 @@ const router = createBrowserRouter([
   { path: "/organizer/validate-entry", element: <Validdate /> },
   { path: "/hod/approved", element: <Approved/>},
   { path: "/hod/disapproved", element: <Disapproved/>},
-  { path: '/', element: <HomePage /> }
-]);
+  { path: '/', element: <HomePage /> },
+  {path:'/forgetpassword/:role',element:<ForgotPassword/>},
+  {path:'/resetpassword/:role/:token',element:<ResetPassword/>}
+]); 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

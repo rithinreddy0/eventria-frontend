@@ -1,15 +1,28 @@
 
 
-import React from 'react';
+import React, { useDebugValue, useEffect, useState } from 'react';
 import hod from '../assets/hod.jpg';
 import student from '../assets/student.png';
 import teacher from '../assets/teacher.jpg';
 import event from '../assets/event.avif';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../Loading';
 
 const HomePage = () => {
+  const [loading,setLoading] =useState(true)
   const navigate = useNavigate();
-
+  useEffect(()=>{
+    setTimeout(()=>{
+      setLoading(false)
+    },1000);
+  })
+  if(loading){
+    return (
+      <div className='pt-8'>
+        <Loading />
+      </div>
+    )
+  }
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-400 to-purple-600 p-8">
       {/* Header */}
@@ -54,7 +67,7 @@ const HomePage = () => {
         </div>
 
         {/* Event Organizer Login */}
-        <div onClick={() => navigate('/organizer/login')} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl hover:scale-105 transition duration-500 ease-in-out transform flex justify-center items-center flex-col">
+        <div onClick={() => navigate('/organizer/auth')} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl hover:scale-105 transition duration-500 ease-in-out transform flex justify-center items-center flex-col">
           <img 
             src={event} 
             alt="Event Organizer Login"

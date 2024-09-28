@@ -3,6 +3,7 @@ import Hnavbar from './Hnavbar';
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Letter from './Letter';
 const api = import.meta.env.VITE_API_URL;
 
 export default function Disapproved() {
@@ -22,7 +23,7 @@ export default function Disapproved() {
               // console.log(letter1)
               return letter1.status == "disapproved"
             })
-            console.log(permissions)
+            console.log(data.data.data)
             setLetters(permissions)
           })
           .catch(()=>{
@@ -38,11 +39,11 @@ export default function Disapproved() {
    
       <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
       <h1 className="text-xl font-bold mb-4">Disapproved Permissions</h1>
-      {letters.map((letter,index)=> <PermissionLetter
+      {letters.map((letter,index)=> <Letter
       key={index}
+        show={false}
         letter={letter}   
-        onApprove={onApprove}
-        onDisapprove={onDisapprove}
+   
       />
     )}
       

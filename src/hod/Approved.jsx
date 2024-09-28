@@ -4,7 +4,7 @@ import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const api = import.meta.env.VITE_API_URL;
-
+import Letter from './Letter';
 export default function Disapproved() {
     const [letters, setLetters] = useState([]);
     const navigate = useNavigate();
@@ -17,12 +17,12 @@ export default function Disapproved() {
             }
           })
           .then((data)=>{
-            // console.log(data.data.data)
-            const permissions = data.data.data.filter((letter1)=>{
-              // console.log(letter1)
-              return letter1.status == "approved"
-            })
-            console.log(permissions)
+            console.log(data)
+            // const permissions = data.data.data.filter((letter1)=>{
+            //   // console.log(letter1)
+            //   return letter1.status == "approved"
+            // })
+            // console.log(data.data)
             setLetters(data.data.data)
           })
           .catch(()=>{
@@ -38,11 +38,9 @@ export default function Disapproved() {
       
       <h1 className="text-2xl font-bold mb-4 text-blue-500">Admin Dashboard</h1>
       <h1 className="text-xl font-bold mb-4">Approved Permissions</h1>
-      {letters.map((letter,index)=> <PermissionLetter
+      {letters.map((letter,index)=> <Letter
       key={index}
         letter={letter}   
-        onApprove={onApprove}
-        onDisapprove={onDisapprove}
       />
     )}
       

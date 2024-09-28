@@ -14,7 +14,7 @@ const Navbar = ({logout}) => {
               Authorization: `Bearer ${token}`
             }
           }).catch(()=>{
-            navigate('/organizer/login')
+            navigate('/organizer/auth')
           })
       }
       verify();
@@ -23,7 +23,7 @@ const Navbar = ({logout}) => {
   };
   const logout1 = ()=>{
     localStorage.removeItem('organizerAuthToken');
-    navigate('/organizer/login')
+    navigate('/organizer/auth')
   }
   return (
     <nav className="bg-white shadow-lg">

@@ -23,7 +23,7 @@ export default function Edashboard() {
             Authorization: `Bearer ${token}`
           }
         }).catch(()=>{
-          navigate('/organizer/login')
+          navigate('/organizer/auth')
         })
     }
     verify();

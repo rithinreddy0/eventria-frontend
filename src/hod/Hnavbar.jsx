@@ -36,6 +36,12 @@ const Hnavbar = () => {
             <a onClick={()=>logout1()} className="text-gray-600 hover:text-indigo-600">
               Logout
             </a>
+            <a onClick={()=>{navigate('/hod/approved')}} className="text-gray-600 hover:text-indigo-600">
+              Approved Permissions
+            </a>
+            <a onClick={()=>{navigate('/hod/disapproved')}} className="text-gray-600 hover:text-indigo-600">
+              Disapproved Permissions
+            </a>
             
           </div>
 

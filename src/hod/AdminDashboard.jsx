@@ -4,13 +4,16 @@ import PermissionLetter from './PermissionLetter';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import Hnavbar from './Hnavbar';
+import Loading from '../Loading';
 const api = import.meta.env.VITE_API_URL;
 
 const AdminDashboard = () => {
+  const [loading ,setLoading] = useState(true);
   const [letters, setLetters] = useState([]);
     const navigate = useNavigate();
   const [v,setv] = useState("");
     const verify = async()=>{
+      setLoading(true);
       const token = localStorage.getItem('hodAuthToken')
         const response = await axios.post(`${api}/hod/getallletters`,{
           headers:{
@@ -19,11 +22,12 @@ const AdminDashboard = () => {
         })
         .then((data)=>{
           // console.log(data.data.data)
+          setLoading(false)
           const permissions = data.data.data.filter((letter1)=>{
             // console.log(letter1)
             return letter1.status == "pending"
           })
-          console.log(permissions)
+          
           setLetters(permissions)
         })
         .catch(()=>{
@@ -69,15 +73,28 @@ const AdminDashboard = () => {
       verify();
    },[v])
 
-
-  return (
+   if(loading){
+    console.log("hello")
+    return(
+      <div>
+        <Loading/>
+      </div>
+    )
+   }
+  else {
+    return (
     <><Hnavbar/>
     <div className="container mx-auto p-4">
       <Toaster/>
       <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
       <h1 className="text-xl font-bold mb-4">Pending Permissions</h1>
-      {letters.map((letter,index)=> <PermissionLetter
+      {loading? 
+        <div>
+          <Loading/>
+        </div>
+       :letters.map((letter,index)=> <PermissionLetter
       key={index}
+      show={true}
         letter={letter}   
         onApprove={onApprove}
         onDisapprove={onDisapprove}
@@ -87,6 +104,7 @@ const AdminDashboard = () => {
     </div>
     </>
   );
-};
+}
+}
 
 export default AdminDashboard;

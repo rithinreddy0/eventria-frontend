@@ -89,7 +89,9 @@ const StudentDashboard = () => {
         // fetchRegisteredEvents();
         fetchAllEvents();
         fetchStudentDetails();
-            setLoading(false);  // Stop loading animation after 2 seconds
+        setTimeout(() => {
+            setLoading(false);
+        }, 500);  // Stop loading animation after 2 seconds
           
     }, []);
     if(loading){
